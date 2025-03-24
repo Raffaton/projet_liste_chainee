@@ -24,5 +24,7 @@ void ajouter_utilisateur(Utilisateurs* premier_utilisateur,int id, char pseudo[5
 void ajouter_message(Publications* premier_message, char texte[100]);
 void afficher_utilisateurs(Utilisateurs* utilisateurs);
 void afficher_menu();
+void ajouter_publication(Utilisateurs* utilisateurs, int id);
+void afficher_info(Utilisateurs* utilisateurs, int id);
 
 #endif

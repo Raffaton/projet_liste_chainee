@@ -29,7 +29,7 @@ Publications* creer_message(char texte[100]) {
     return nouveau_message;
 }
 
-void ajouter_utilisateur(Utilisateurs* premier_utilisateur,int id, char pseudo[50]) {
+void ajouter_utilisateur(Utilisateurs* premier_utilisateur, int id, char pseudo[50]) {
     if (premier_utilisateur == NULL) {
         return;
     }
@@ -63,4 +63,25 @@ void ajouter_message(Publications* premier_message, char texte[100]) {
     }
 
     courant->publication_suivante = nouveau_message;
+}
+
+void afficher_menu() {
+    printf("\n=== Réseau Social ===\n");
+    printf("1. Ajouter un utilisateur\n");
+    printf("2. Afficher tous les utilisateurs\n");
+    printf("3. Quitter\n");
+}
+
+void afficher_utilisateurs(Utilisateurs* utilisateurs) {
+    if (utilisateurs == NULL) {
+        printf("Aucun utilisateur enregistré.\n");
+        return;
+    }
+
+    Utilisateurs* courant = utilisateurs;
+    printf("\nListe des utilisateurs :\n");
+    while (courant != NULL) {
+        printf("ID: %d, Pseudo: %s\n", courant->id, courant->pseudo);
+        courant = courant->utilisateur_suivant;
+    }
 }

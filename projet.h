@@ -23,5 +23,6 @@ Publications* creer_message(char texte[100]);
 void ajouter_utilisateur(Utilisateurs* premier_utilisateur,int id, char pseudo[50]);
 void ajouter_message(Publications* premier_message, char texte[100]);
 void afficher_utilisateurs(Utilisateurs* utilisateurs);
+void afficher_menu();
 
 #endif

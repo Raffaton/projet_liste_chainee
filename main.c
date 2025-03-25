@@ -6,6 +6,8 @@ int main() {
     int id;
     char pseudo[50];
     int choix_publication;
+    int choix_ami;
+    int choix_info;
 
     do {
         afficher_menu();
@@ -15,12 +17,13 @@ int main() {
 
         switch (choix) {
             case 1:
-                printf("Entrez l'ID de l'utilisateur : ");
+                printf("\nEntrez l'ID de l'utilisateur : ");
                 scanf("%d", &id);
                 getchar();
         
                 printf("Entrez le pseudo de l'utilisateur : ");
                 fgets(pseudo, 50, stdin);
+                pseudo[strcspn(pseudo, "\n")] = 0;                
 
                 if (liste_utilisateurs == NULL) {
                     liste_utilisateurs = creer_utilisateur(id, pseudo);
@@ -30,7 +33,11 @@ int main() {
                 }
                 break;
             case 2:
-                // 
+                afficher_utilisateurs(liste_utilisateurs);
+                printf("\nEntrez l'ID de l'utilisateur pour ajouter un ami : ");
+                scanf("%d", &choix_ami);
+                getchar();
+                ajouter_ami(liste_utilisateurs, choix_ami);
                 break;
             case 3:
                 afficher_utilisateurs(liste_utilisateurs);
@@ -43,17 +50,22 @@ int main() {
                 afficher_utilisateurs(liste_utilisateurs);
                 break;
             case 5:
-                afficher_info(liste_utilisateurs, id);
+                afficher_utilisateurs(liste_utilisateurs);
+                printf("\nEntrez l'ID de l'utilisateur pour connaitre ces informations : ");
+                scanf("%d", &choix_info);
+                getchar();
+                afficher_info(liste_utilisateurs, choix_info);
                 break;
             case 6:
-                printf("Fermeture du programme.\n");
+                liberer_utilisateur(liste_utilisateurs);
                 break;
             
             default:
                 printf("Choix invalide, veuillez réessayer.\n");
+                break;
         }
 
-    } while (choix != 5);
+    } while (choix != 6);
 
     return 0;
 }

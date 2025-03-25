@@ -64,40 +64,50 @@ void ajouter_message(Publications* premier_message, char texte[100]) {
 
     courant->publication_suivante = nouveau_message;
 }
-void ajouter_ami(Utilisateurs* utilisateurs, int id_utilisateur, int id_ami) {
-	Utilisateurs* utilisateur = trouver_utilisateur(utilisateurs, id_utilisateur);
-	Utilisateurs* ami = trouver_utilisateur(utilisateurs, id_ami);
 
+void ajouter_ami(Utilisateurs* utilisateurs, int id) {
+    if (utilisateurs == NULL) {
+        return;
+    }
 
-	if (!utilisateur || !ami) {
-		printf("Utilisateur ou ami introuvable.\n");
-		return;
-	}
+    Utilisateurs* courant = utilisateurs;
+    while (courant != NULL && courant->id != id) {
+        courant = courant->utilisateur_suivant;
+    }
+    if (courant == NULL) {
+        printf("Utilisateur (ID %d) non trouve !\n", id);
+        return;
+    }
 
-=	Utilisateurs* courant = utilisateur->ami_suivant;
-	while (courant != NULL) {
-		if (courant->id == id_ami) {
-			printf("Cet utilisateur est déjà un ami.\n");
-			return;
-		}
-		courant = courant->ami_suivant;
-	}
+    int choix;
+    afficher_utilisateurs(utilisateurs);
+    printf("Quel est l'ID d'utilisateur que voulez vous ajouter en ami (pas vous): ");
+    scanf("%d", &choix);
+    getchar();
 
-	Utilisateurs* nouvel_ami = malloc(sizeof(Utilisateurs));
-	if (!nouvel_ami) {
-		printf("Erreur mémoire.\n");
-		return;
-	}
-	nouvel_ami->id = ami->id;
-	strcpy(nouvel_ami->pseudo, ami->pseudo);
-	nouvel_ami->premiere_publication = NULL;
-	nouvel_ami->ami_suivant = utilisateur->ami_suivant;
-	nouvel_ami->utilisateur_suivant = NULL;
-	utilisateur->ami_suivant = nouvel_ami;
+    if (choix == id) {
+        printf("Vous ne pouvez pas vous ajouter vous-meme.\n");
+        return;
+    }
 
-	printf("Ami ajouté avec succès.\n");
+    Utilisateurs* courant_a_ajouter = utilisateurs;
+    while (courant_a_ajouter != NULL && courant_a_ajouter->id != choix) {
+        courant_a_ajouter = courant_a_ajouter->utilisateur_suivant;
+    }
+    if (courant_a_ajouter == NULL) {
+        printf("Utilisateur (ID %d) non trouve !\n", choix);
+        return;
+    }
 
-
+    if (courant->ami_suivant == NULL) {
+        courant->ami_suivant = courant_a_ajouter;
+    }
+    else {
+        while (courant->ami_suivant != NULL) {
+            courant = courant->ami_suivant;
+        }
+        courant->ami_suivant = courant_a_ajouter;
+    }
 }
 
 void ajouter_publication(Utilisateurs* utilisateurs, int id) {
@@ -106,13 +116,18 @@ void ajouter_publication(Utilisateurs* utilisateurs, int id) {
     }
 
     Utilisateurs* courant = utilisateurs;
-    while (courant->id != id) {
+    while (courant != NULL && courant->id != id) {
         courant = courant->utilisateur_suivant;
+    }
+    if (courant == NULL) {
+        printf("Utilisateur (ID %d) non trouve !\n", id);
+        return;
     }
 
     char texte[100];
     printf("Entrez votre publication (max 100 char) :\n");
     fgets(texte, 100, stdin);
+    texte[strcspn(texte, "\n")] = 0;
 
     if (courant->premiere_publication == NULL) {
         courant->premiere_publication = creer_message(texte);
@@ -141,36 +156,37 @@ void afficher_info(Utilisateurs* utilisateurs, int id) {
     }
 
     Utilisateurs* courant = utilisateurs;
-    while (courant->id != id) {
+    while (courant != NULL && courant->id != id) {
         courant = courant->utilisateur_suivant;
     }
+    if (courant == NULL) {
+        printf("Utilisateur (ID %d) non trouve !\n", id);
+        return;
+    }
 
-    Utilisateurs* actuel = courant;
-    printf("Amis de %s :\n", actuel->pseudo);
-    if (actuel->ami_suivant == NULL) {
+    printf("### Amis de %s ###\n", courant->pseudo);
+    Utilisateurs* ami = courant->ami_suivant;
+    if (ami == NULL) {
         printf(" - Cet utilisateur n'a pas d'ami\n");
-    }
-    else {
-        do {
-            actuel = actuel->ami_suivant;
-            printf(" - ID: %d, Pseudo: %s\n", actuel->id, actuel->pseudo);
-            
-        } while (actuel != NULL);
+    } else {
+        while (ami != NULL) {
+            printf(" - ID: %d --- Pseudo: %s\n", ami->id, ami->pseudo);
+            ami = ami->ami_suivant;
+        }
     }
 
-    printf("\nPublications de %s :\n", courant->pseudo);
-    if (courant->premiere_publication == NULL) {
+    printf("\n### Publications de %s ###\n", courant->pseudo);
+    Publications* publication = courant->premiere_publication;
+    if (publication == NULL) {
         printf(" - Cet utilisateur n'a pas de publications\n");
     }
     else {
         do {
-            courant = courant->premiere_publication;
-            printf(" - ID: %d, Pseudo: %s\n", courant->id, courant->pseudo);
+            printf(" - %s\n", publication->message);
+            publication = publication->publication_suivante;
             
-        } while (courant != NULL);
+        } while (publication != NULL);
     }
-
-
 }
 
 void afficher_menu() {
@@ -181,4 +197,21 @@ void afficher_menu() {
     printf("4. Afficher tous les utilisateurs\n");
     printf("5. Afficher les informations d'un utilisateur\n");
     printf("6. Quitter\n");
+}
+
+void liberer_utilisateur(Utilisateurs* utilisateurs) {
+    if (utilisateurs == NULL)
+        return;
+    liberer_utilisateur(utilisateurs->utilisateur_suivant);
+    liberer_publication(utilisateurs->premiere_publication);
+    free(utilisateurs);
+    utilisateurs = NULL;
+}
+
+void liberer_publication(Publications* publication) {
+    if (publication == NULL)
+        return;
+    liberer_publication(publication->publication_suivante);
+    free(publication);
+    publication = NULL;
 }

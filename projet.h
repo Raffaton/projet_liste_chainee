@@ -26,5 +26,8 @@ void afficher_utilisateurs(Utilisateurs* utilisateurs);
 void afficher_menu();
 void ajouter_publication(Utilisateurs* utilisateurs, int id);
 void afficher_info(Utilisateurs* utilisateurs, int id);
+void ajouter_ami(Utilisateurs* utilisateurs, int id);
+void liberer_utilisateur(Utilisateurs* utilisateurs);
+void liberer_publication(Publications* publication);
 
 #endif

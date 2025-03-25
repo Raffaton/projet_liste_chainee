@@ -5,6 +5,7 @@ int main() {
     int choix;
     int id;
     char pseudo[50];
+    int choix_publication;
 
     do {
         afficher_menu();
@@ -29,16 +30,30 @@ int main() {
                 }
                 break;
             case 2:
-                afficher_utilisateurs(liste_utilisateurs);
+                // 
                 break;
             case 3:
+                afficher_utilisateurs(liste_utilisateurs);
+                printf("Entrez l'ID de l'utilisateur pour faire une publication : ");
+                scanf("%d", &choix_publication);
+                getchar();
+                ajouter_publication(liste_utilisateurs, choix_publication);
+                break;
+            case 4:
+                afficher_utilisateurs(liste_utilisateurs);
+                break;
+            case 5:
+                afficher_info(liste_utilisateurs);
+                break;
+            case 6:
                 printf("Fermeture du programme.\n");
                 break;
+            
             default:
                 printf("Choix invalide, veuillez réessayer.\n");
         }
 
-    } while (choix != 3);
+    } while (choix != 5);
 
     return 0;
 }

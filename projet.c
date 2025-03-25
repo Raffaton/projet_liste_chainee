@@ -68,6 +68,7 @@ void ajouter_ami(Utilisateurs* utilisateurs, int id_utilisateur, int id_ami) {
 	Utilisateurs* utilisateur = trouver_utilisateur(utilisateurs, id_utilisateur);
 	Utilisateurs* ami = trouver_utilisateur(utilisateurs, id_ami);
 
+
 	if (!utilisateur || !ami) {
 		printf("Utilisateur ou ami introuvable.\n");
 		return;
@@ -96,6 +97,8 @@ void ajouter_ami(Utilisateurs* utilisateurs, int id_utilisateur, int id_ami) {
 
 	printf("Ami ajouté avec succès.\n");
 
+
+}
 
 void ajouter_publication(Utilisateurs* utilisateurs, int id) {
     if (utilisateurs == NULL) {

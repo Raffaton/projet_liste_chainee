@@ -64,6 +64,41 @@ void ajouter_message(Publications* premier_message, char texte[100]) {
 
     courant->publication_suivante = nouveau_message;
 }
+void ajouter_ami(Utilisateurs* utilisateurs, int id_utilisateur, int id_ami) {
+	Utilisateurs* utilisateur = trouver_utilisateur(utilisateurs, id_utilisateur);
+	Utilisateurs* ami = trouver_utilisateur(utilisateurs, id_ami);
+
+
+	if (!utilisateur || !ami) {
+		printf("Utilisateur ou ami introuvable.\n");
+		return;
+	}
+
+=	Utilisateurs* courant = utilisateur->ami_suivant;
+	while (courant != NULL) {
+		if (courant->id == id_ami) {
+			printf("Cet utilisateur est déjà un ami.\n");
+			return;
+		}
+		courant = courant->ami_suivant;
+	}
+
+	Utilisateurs* nouvel_ami = malloc(sizeof(Utilisateurs));
+	if (!nouvel_ami) {
+		printf("Erreur mémoire.\n");
+		return;
+	}
+	nouvel_ami->id = ami->id;
+	strcpy(nouvel_ami->pseudo, ami->pseudo);
+	nouvel_ami->premiere_publication = NULL;
+	nouvel_ami->ami_suivant = utilisateur->ami_suivant;
+	nouvel_ami->utilisateur_suivant = NULL;
+	utilisateur->ami_suivant = nouvel_ami;
+
+	printf("Ami ajouté avec succès.\n");
+
+
+}
 
 void ajouter_publication(Utilisateurs* utilisateurs, int id) {
     if (utilisateurs == NULL) {

@@ -43,7 +43,7 @@ int main() {
                 afficher_utilisateurs(liste_utilisateurs);
                 break;
             case 5:
-                afficher_info(liste_utilisateurs);
+                afficher_info(liste_utilisateurs, id);
                 break;
             case 6:
                 printf("Fermeture du programme.\n");

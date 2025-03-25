@@ -110,15 +110,33 @@ void afficher_info(Utilisateurs* utilisateurs, int id) {
         courant = courant->utilisateur_suivant;
     }
 
-    printf("Amis de %s :\n", courant->pseudo);
-    while (courant->ami_suivant != NULL) {
-        Utilisateurs* actuel = courant->ami_suivant;
-        printf(" - ID: %d, Pseudo: %s\n", actuel->id, actuel->pseudo);
-        
+    Utilisateurs* actuel = courant;
+    printf("Amis de %s :\n", actuel->pseudo);
+    if (actuel->ami_suivant == NULL) {
+        printf(" - Cet utilisateur n'a pas d'ami\n");
+    }
+    else {
+        do {
+            actuel = actuel->ami_suivant;
+            printf(" - ID: %d, Pseudo: %s\n", actuel->id, actuel->pseudo);
+            
+        } while (actuel != NULL);
     }
 
-}
+    printf("\nPublications de %s :\n", courant->pseudo);
+    if (courant->premiere_publication == NULL) {
+        printf(" - Cet utilisateur n'a pas de publications\n");
+    }
+    else {
+        do {
+            courant = courant->premiere_publication;
+            printf(" - ID: %d, Pseudo: %s\n", courant->id, courant->pseudo);
+            
+        } while (courant != NULL);
+    }
 
+
+}
 
 void afficher_menu() {
     printf("\n=== Reseau Social ===\n");

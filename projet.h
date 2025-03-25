@@ -29,5 +29,7 @@ void afficher_info(Utilisateurs* utilisateurs, int id);
 void ajouter_ami(Utilisateurs* utilisateurs, int id);
 void liberer_utilisateur(Utilisateurs* utilisateurs);
 void liberer_publication(Publications* publication);
+int verifier_id(Utilisateurs* utilisateurs, int id);
+
 
 #endif

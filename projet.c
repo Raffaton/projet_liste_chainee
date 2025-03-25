@@ -29,6 +29,24 @@ Publications* creer_message(char texte[100]) {
     return nouveau_message;
 }
 
+int verifier_id(Utilisateurs* utilisateurs, int id) {
+    if (utilisateurs == NULL) {
+        return 1;
+    }
+    else {
+        Utilisateurs* courant = utilisateurs;
+        while (courant != NULL) {
+            if (courant->id == id) {
+                printf("\nCet ID a deja ete utilise, reessayez avec une autre\n");
+                return 0;
+            }
+            courant = courant->utilisateur_suivant;
+        }
+    }
+
+    return 1;
+}
+
 void ajouter_utilisateur(Utilisateurs* premier_utilisateur, int id, char pseudo[50]) {
     if (premier_utilisateur == NULL) {
         return;
@@ -139,6 +157,7 @@ void ajouter_publication(Utilisateurs* utilisateurs, int id) {
 
 void afficher_utilisateurs(Utilisateurs* utilisateurs) {
     if (utilisateurs == NULL) {
+        printf("\nAucun utilisateur enregistre\n");
         return;
     }
 

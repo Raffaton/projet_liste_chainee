@@ -44,6 +44,7 @@ void ajouter_utilisateur(Utilisateurs* premier_utilisateur, int id, char pseudo[
         courant = courant->utilisateur_suivant;
     }
 
+
     courant->utilisateur_suivant = nouvel_utilisateur;
 }
 
@@ -64,9 +65,8 @@ void ajouter_message(Publications* premier_message, char texte[100]) {
 
     courant->publication_suivante = nouveau_message;
 }
-
 void afficher_menu() {
-    printf("\n=== Réseau Social ===\n");
+    printf("\n--- Réseau Social ---\n");
     printf("1. Ajouter un utilisateur\n");
     printf("2. Afficher tous les utilisateurs\n");
     printf("3. Quitter\n");
@@ -78,10 +78,12 @@ void afficher_utilisateurs(Utilisateurs* utilisateurs) {
         return;
     }
 
+
     Utilisateurs* courant = utilisateurs;
     printf("\nListe des utilisateurs :\n");
     while (courant != NULL) {
         printf("ID: %d, Pseudo: %s\n", courant->id, courant->pseudo);
         courant = courant->utilisateur_suivant;
     }
+    
 }

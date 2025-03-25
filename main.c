@@ -1,6 +1,7 @@
 #include "projet.h"
 
 int main() {
+    system("cls");
     Utilisateurs* liste_utilisateurs = NULL;
     int choix;
     int id;

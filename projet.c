@@ -104,7 +104,7 @@ void ajouter_ami(Utilisateurs* utilisateurs, int id) {
     getchar();
 
     if (choix == id) {
-        printf("Vous ne pouvez pas vous ajouter vous-meme.\n");
+        printf("\nVous ne pouvez pas vous ajouter vous-meme.\n");
         return;
     }
 
@@ -183,18 +183,18 @@ void afficher_info(Utilisateurs* utilisateurs, int id) {
         return;
     }
 
-    printf("### Amis de %s ###\n", courant->pseudo);
+    printf("##### Amis de %s #####\n", courant->pseudo);
     Utilisateurs* ami = courant->ami_suivant;
     if (ami == NULL) {
         printf(" - Cet utilisateur n'a pas d'ami\n");
     } else {
         while (ami != NULL) {
-            printf(" - ID: %d --- Pseudo: %s\n", ami->id, ami->pseudo);
+            printf(" - ID: %d | Pseudo: %s\n", ami->id, ami->pseudo);
             ami = ami->ami_suivant;
         }
     }
 
-    printf("\n### Publications de %s ###\n", courant->pseudo);
+    printf("\n##### Publications de %s #####\n", courant->pseudo);
     Publications* publication = courant->premiere_publication;
     if (publication == NULL) {
         printf(" - Cet utilisateur n'a pas de publications\n");
@@ -209,7 +209,7 @@ void afficher_info(Utilisateurs* utilisateurs, int id) {
 }
 
 void afficher_menu() {
-    printf("\n=== Reseau Social ===\n");
+    printf("\n======= Reseau Social =======\n");
     printf("1. Ajouter un utilisateur\n");
     printf("2. Ajouter un ami\n");
     printf("3. Ajouter une publication\n");
